@@ -1,36 +1,31 @@
-# day1
+# advent-of-code
 
-FIXME: description
+Solutions to Advent of Code 2018 
 
 ## Installation
 
-Download from http://example.com/FIXME.
+No instructions to install - this is not a package. All source can be
+found in src/advent-of-code/core.clj
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar day1-0.1.0-standalone.jar [args]
+I run the code from inside Emacs in Cider
 
 ## Options
 
-FIXME: listing of options this app accepts.
+None
 
 ## Examples
 
-...
+None
 
 ### Bugs
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+None
 
 ## License
 
-Copyright © 2018 FIXME
+Copyright © 2018 Paul Jewell
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
