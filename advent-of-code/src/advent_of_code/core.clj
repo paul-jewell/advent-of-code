@@ -2,11 +2,6 @@
   (:require [clojure.string :as str])
   (:gen-class))
 
-(defn -main
-  "Solve Advent of Code 2018 day 1"
-  [& args]
-  (printf "Calibration frequency: %d\n" (day1a))
-  (printf "First repeating frequency: %d/n" (day1b)))
 
 (defn day1a
   "Solve part a - calibrate the device"
@@ -28,12 +23,6 @@
                  (map read-string (str/split (slurp "../day1-input.txt") #"\n"))
                  (rest changelist)))))))
 
-(defn day2a
-  []
-  (let [input (str/split (slurp "../day2-input.txt") #"\n")]
-    (* ((frequencies (map count2 input)) true)
-       ((frequencies (map count3 input)) true))))
-
 (defn mycount
   [count id]
   (some identity (map #(= count %) (vals (frequencies id)))))
@@ -45,6 +34,14 @@
 (defn count3
   [id]
   (mycount 3 id))
+
+
+(defn day2a
+  []
+  (let [input (str/split (slurp "../day2-input.txt") #"\n")]
+    (* ((frequencies (map count2 input)) true)
+       ((frequencies (map count3 input)) true))))
+
 
 (defn day2b
   []
@@ -63,3 +60,9 @@
       (if (= (first s1) (first s2))
         (conj outstr (first s1))
         (recur outstr (rest s1) (rest s2))))))
+
+(defn -main
+  "Solve Advent of Code 2018 day 1"
+  [& args]
+  (printf "Calibration frequency: %d\n" (day1a))
+  (printf "First repeating frequency: %d/n" (day1b)))
