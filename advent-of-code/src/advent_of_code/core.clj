@@ -43,11 +43,7 @@
        ((frequencies (map count3 input)) true))))
 
 
-(defn day2b
-  []
-  (let [input (str/split (slurp "../day2-input.txt") #"\n")]
-    
-    ))
+
 
 (defn common
   "Output string of common characters from two input strings"
@@ -55,14 +51,43 @@
   (loop [outstr []
          s1 str1
          s2 str2]
-    (if (= (count s1) 0)
+    (if (<= (count s1) 0)
       outstr
       (if (= (first s1) (first s2))
-        (conj outstr (first s1))
+        (recur (conj outstr (first s1)) (rest s1) (rest s2))
         (recur outstr (rest s1) (rest s2))))))
 
+(defn list-compare
+  [leftstr rightlist]
+  (loop [rlist rightlist]
+    (if (= (count rlist) 0)
+      nil
+      (let [result-str (apply str (common leftstr (first rlist)))]
+               (if (= (count result-str) 25) ; We have a solution
+                 result-str
+                 (recur (next rlist)))))))
+
+(defn day2b
+  []
+  (let [input (str/split (slurp "../day2-input.txt") #"\n")]
+    (loop
+        [leftstr input
+         rightstr input]
+      (let [result-str (list-compare (first leftstr) rightstr)]
+        (if result-str
+          result-str
+          (recur (rest leftstr) (rest rightstr)))))))
+
+
+
+
+
 (defn -main
-  "Solve Advent of Code 2018 day 1"
+  "Solve Advent of Code 2018"
   [& args]
-  (printf "Calibration frequency: %d\n" (day1a))
-  (printf "First repeating frequency: %d/n" (day1b)))
+  (printf "Day1a: Calibration frequency: %d\n" (day1a))
+  (printf "Day1b: First repeating frequency: %d\n" (day1b))
+  (printf "Day2a: Box ID checksum: %d\n" (day2a))
+  (printf "Day2b: Common box ID letters: %s\n" (apply str (day2b)))
+  (printf "Day3a: ...")
+  )
