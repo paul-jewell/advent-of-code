@@ -78,8 +78,51 @@
           result-str
           (recur (rest leftstr) (rest rightstr)))))))
 
+;;;;===========================Day 3===============================
+(defn parse-claim [s]
+  (->> (re-matches #"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)" s)
+       (drop 1)
+       (map read-string)
+       (zipmap [:id :x :y :w :h])))
 
+(defn parse-input [s]
+  (map parse-claim (str/split-lines s)))
 
+(defn claim-to-points [{:keys [id x y w h] :as claim}]
+  (for [px (range w)
+        py (range h)]
+    {:id id :x (+ x px) :y (+ y py)}))
+
+(defn overlap-points [claims]
+  (let [points (mapcat claim-to-points claims)]
+    (->> points
+         (map (juxt :x :y))
+         frequencies
+         (remove #(= (val %) 1))
+         count)))
+
+(defn non-overlap-claim [claims]
+  (let [points (mapcat claim-to-points claims)
+        overlapping-ids (->> points
+                             (group-by (juxt :x :y))
+                             (filter #(> (count (val %)) 1))
+                             vals
+                             (mapcat #(map :id %))
+                             set)]
+    (some #(when-not (contains? overlapping-ids (:id %))
+             (:id %)) claims)))
+
+(defn day3a
+  []
+  (let [input (parse-input (slurp "../day3-input.txt"))]
+    (overlap-points input)))
+
+(defn day3b
+  []
+  (let [input (parse-input (slurp "../day3-input.txt"))]
+    (non-overlap-claim input)))
+
+;;;;==============================================================
 
 
 (defn -main
@@ -91,3 +134,5 @@
   (printf "Day2b: Common box ID letters: %s\n" (apply str (day2b)))
   (printf "Day3a: ...")
   )
+
+
