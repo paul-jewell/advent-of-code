@@ -1,4 +1,5 @@
 (ns advent-of-code.core
+  (:require [clojure.set :as set])
   (:gen-class))
 
 (defn fuel
@@ -264,5 +265,8 @@
   (println "Day 2a: " (day2a))
   (println "Day 2b: " (first (day2b)))
   (println "Day 3a: " (day3a))
-  (println "Day 3b: " (day3b)))
+  (println "Day 3b: " (day3b))
+  (println "Day 4a: " (day4a))
+  (println "Day 4b: " (day4b)))
+
 

@@ -51,3 +51,13 @@
     (is (contains-double? 197777))
     (is (not (contains-double? 197486)))
     (is (contains-valid-double? 111122))))
+
+#_(deftest advent-of-code-test
+  (testing "Correct results are maintained as further refinement is done"
+    (is (== 3348909 (day1a)))
+    (is (== 5020494 (day1b)))
+    (is (== 10566835 (day2a)))
+    (is (== 2347 (day3a)))
+    (is (== 1640 (day4a)))
+    (is (== 1126 (day4b)))))
+
