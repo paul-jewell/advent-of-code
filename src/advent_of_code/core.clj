@@ -28,17 +28,132 @@
   []
   (reduce + (map adjusted-fuel (day1-input "day1-input.txt"))))
 
-(defn day2-input
+(defn intcomp-input
   [filename]
   (into []  (map read-string (into [] (clojure.string/split (slurp filename) #",")))))
 
 (defn input-value ;; Get value from user - no validation...
   []
-  (read-line))
+  (print "Input value: ") (Integer/parseInt (read-line)))
 
 (defn output-value
   [value]
-  (println value))
+  (println "Program output" value))
+
+(defn decode-opcode
+  [opcode]
+  (let [opstring (format "%05d" opcode)]
+    #_(println opstring)
+    [(Integer/parseInt (subs opstring 3))
+     (read-string (subs opstring 2 3))
+     (read-string (subs opstring 1 2))
+     (read-string (subs opstring 0 1))]))
+
+(defn opcode1
+  [prog pc]
+  (let [[opcode op1mode op2mode op3mode] (decode-opcode (nth prog pc))
+
+        op1value (if (= op1mode 0)
+                   (nth prog (nth prog (+ pc 1)))  ; Lookup in program 
+                   (nth prog (+ pc 1)))       ; Take value directly
+        op2value (if (= op2mode 0)
+                   (nth prog (nth prog (+ pc 2)))
+                   (nth prog (+ pc 2)))
+        destination (nth prog (+ pc 3))]
+    #_(println "opcode: " opcode "op1: " op1value " (" op1mode "); op2: " op2value " (" op2mode "); dest: " destination)
+    [(assoc prog destination (+ op1value op2value)) (+ pc 4)]))
+
+(defn opcode2
+  [prog pc]
+  (let [[opcode op1mode op2mode op3mode] (decode-opcode (nth prog pc))
+        op1value (if (= op1mode 0)
+                   (nth prog (nth prog (+ pc 1)))
+                   (nth prog (+ pc 1)))
+        op2value (if (= op2mode 0)
+                   (nth prog (nth prog (+ pc 2)))
+                   (nth prog (+ pc 2)))
+        destination (nth prog (+ pc 3))]
+    #_(println "opcode: " opcode "op1: " op1value " (" op1mode "); op2: " op2value " (" op2mode "); dest: " destination)
+    [(assoc prog destination (* op1value op2value)) (+ pc 4)]))
+
+(defn opcode3
+  [prog pc]
+  (let [[opcode op1mode _ _] (decode-opcode (nth prog pc))
+        destination (nth prog (+ pc 1))]
+    #_(println "opcode: " opcode " (input) dest: " destination)
+    [(assoc prog destination (input-value)) (+ pc 2)]))
+
+(defn opcode4
+  [prog pc]
+  (let [[opcode op1mode _ _] (decode-opcode (nth prog pc))
+        value (if (= op1mode 0)
+                (nth prog (nth prog (+ pc 1)))
+                (nth prog (+ pc 1)))]
+    (output-value value)
+    #_(println "opcode: " opcode  " (output) pc: " pc "; output-value: " value)
+    #_(if (= pc 24) (println "0:" (prog 0) "; 2: " (prog 2) "; 223: " (prog 223) "; 224: " (prog 224) "; 225: " (prog 225)))
+    [prog (+ pc 2)]))
+
+(defn opcode5
+  "implement jump-if-true - if the value in op1 is not zero, change the PC to the address referenced in op2"
+  [prog pc]
+  (let [[opcode op1mode op2mode _] (decode-opcode (nth prog pc))
+        predicate-value (if (=  op1mode 0)
+                          (nth prog (nth prog (+ pc 1)))
+                          (nth prog (+ pc 1)))
+        jump-address (if (= op2mode 0)
+                       (nth prog (nth prog (+ pc 2)))
+                       (nth prog (+ pc 2)))]
+    (if (not= predicate-value 0)
+      [prog jump-address] ; update the PC to the jump address
+      [prog (+ pc 3)]))) ; advance the PC by 3
+
+(defn opcode6
+  "implement jump-if-false"
+  [prog pc]
+  (let [[opcode op1mode op2mode _] (decode-opcode (nth prog pc))
+        predicate-value (if (= op1mode 0)
+                          (nth prog (nth prog (+ pc 1)))
+                          (nth prog (+ pc 1)))
+        jump-address (if (= op2mode 0)
+                       (nth prog (nth prog (+ pc 2)))
+                       (nth prog (+ pc 2)))]
+    #_(println "Predicate-value: " predicate-value "; jump address: " jump-address)
+    (if (= predicate-value 0)
+      [prog jump-address]  ; update the PC to the jump address
+      [prog (+ pc 3)])))   ; advance the PC past the instruction
+
+(defn opcode7
+  "implement less-than: if [opcode1] < [opcode2] 1 => [destination] else 0 => [destination]"
+  [prog pc]
+  (let [[opcode op1mode op2mode op3mode] (decode-opcode (nth prog pc))
+        op1value (if (= op1mode 0)
+                   (nth prog (nth prog (+ pc 1)))
+                   (nth prog (+ pc 1)))
+        op2value (if (= op2mode 0)
+                   (nth prog (nth prog (+ pc 2)))
+                   (nth prog (+ pc 2)))
+        destination (nth prog (+ pc 3))]
+    (if (< op1value op2value)
+      [(assoc prog destination 1) (+ pc 4)]
+      [(assoc prog destination 0) (+ pc 4)])))
+
+(defn opcode8
+  "implement equals - if [opcode1] == [opcode2] 1 => [destination] else 0 => [destination]"
+    [prog pc]
+  (let [[opcode op1mode op2mode op3mode] (decode-opcode (nth prog pc))
+        op1value (if (= op1mode 0)
+                   (nth prog (nth prog (+ pc 1)))
+                   (nth prog (+ pc 1)))
+        op2value (if (= op2mode 0)
+                   (nth prog (nth prog (+ pc 2)))
+                   (nth prog (+ pc 2)))
+        destination (nth prog (+ pc 3))]
+    #_(println "pc: " pc " op1value: " op1value " op2value: " op2value " destination: " destination)
+    (if (= op1value op2value)
+      [(assoc prog destination 1) (+ pc 4)]
+      [(assoc prog destination 0) (+ pc 4)])))
+
 
 (defn intcomp
   ([prog]
@@ -46,24 +161,27 @@
   ([p i]
    (loop [prog p
           index i]
-;    (println "Initial values: " prog index)
-       (if (= (nth prog index) 99)
+     (if (or (= (nth prog index) 99)
+             (>= index (count prog))) ; exit code
          prog
-         (let [opcode (nth prog index)]
+         (let [[opcode _ _ _] (decode-opcode (nth prog index))]
            (case opcode
-             (1 2) (let ;; binary operands
-                       [op1 (nth prog (+ index 1))
-                        op2 (nth prog (+ index 2))
-                        dest (nth prog (+ index 3))
-                        func (case opcode
-                               1 #'+
-                               2 #'*)]
-                     (recur (assoc prog dest (func (prog op1) (prog  op2))) (+ index 4))) 
-             3 (let [dest (nth prog (+ index 1))]
-                 (recur (assoc prog dest (input-value)) (+ index 2)))
-             4 (let [src (nth prog (+ index 1))]
-                 (output-value (prog src))
-                 (recur prog (+ index 2)))))))))
+             1 (let [[prog' index'] (opcode1 prog index)]
+                 (recur prog' index'))
+             2 (let [[prog' index'] (opcode2 prog index)]
+                 (recur prog' index'))
+             3 (let [[prog' index'] (opcode3 prog index)]
+                 (recur prog' index'))
+             4 (let [[prog' index'] (opcode4 prog index)]
+                 (recur prog' index'))
+             5 (let [[prog' index'] (opcode5 prog index)]
+                 (recur prog' index'))
+             6 (let [[prog' index'] (opcode6 prog index)]
+                 (recur prog' index'))
+             7 (let [[prog' index'] (opcode7 prog index)]
+                 (recur prog' index'))
+             8 (let [[prog' index'] (opcode8 prog index)]
+                 (recur prog' index'))))))))
 
 
 ;; Once you have a working computer, the first step is to restore the
@@ -74,13 +192,13 @@
 
 (defn day2a
   []
-  ((intcomp (assoc (assoc (day2-input "day2-input.txt") 1 12) 2 2)) 0))
+  ((intcomp (assoc (assoc (intcomp-input "day2-input.txt") 1 12) 2 2)) 0))
 
 
 (defn day2b
   []
   (let [target 19690720
-        prog (day2-input "day2-input.txt")]
+        prog (intcomp-input "day2-input.txt")]
     (for [noun (range 100)
           verb (range 100)
           :when (== target (nth (intcomp (assoc (assoc prog 1 noun) 2 verb)) 0))]
@@ -256,17 +374,18 @@
             true
             (recur (rest pass))))))))
 
-
-(defn my-test2
-  []
-  (drop-while #(= %1 \1) "111233"))
-
 (defn day4b
   []
   (count (for [n (range day4-min (+ day4-max 1))
                :when (and (valid-password? n)
                           (contains-valid-double? n))]
            n)))
+
+(defn day5
+  []
+  (intcomp (intcomp-input "day5-input.txt"))
+  println "Completed")
+
 
 (defn -main
   "I don't do a whole lot ... yet."
