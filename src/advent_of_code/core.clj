@@ -32,6 +32,13 @@
   [filename]
   (into []  (map read-string (into [] (clojure.string/split (slurp filename) #",")))))
 
+(defn input-value ;; Get value from user - no validation...
+  []
+  (read-line))
+
+(defn output-value
+  [value]
+  (println value))
 
 (defn intcomp
   ([prog]
@@ -42,15 +49,21 @@
 ;    (println "Initial values: " prog index)
        (if (= (nth prog index) 99)
          prog
-         (let [opcode (nth prog index)
-               func (case opcode
-                      1 #'+
-                      2 #'*)
-               op1 (nth prog (+ index 1))
-               op2 (nth prog (+ index 2))
-               dest (nth prog (+ index 3))]
-;           (println opcode op1 op2 dest)
-           (recur (assoc prog dest (func (prog op1) (prog  op2))) (+ index 4)))))))
+         (let [opcode (nth prog index)]
+           (case opcode
+             (1 2) (let ;; binary operands
+                       [op1 (nth prog (+ index 1))
+                        op2 (nth prog (+ index 2))
+                        dest (nth prog (+ index 3))
+                        func (case opcode
+                               1 #'+
+                               2 #'*)]
+                     (recur (assoc prog dest (func (prog op1) (prog  op2))) (+ index 4))) 
+             3 (let [dest (nth prog (+ index 1))]
+                 (recur (assoc prog dest (input-value)) (+ index 2)))
+             4 (let [src (nth prog (+ index 1))]
+                 (output-value (prog src))
+                 (recur prog (+ index 2)))))))))
 
 
 ;; Once you have a working computer, the first step is to restore the
