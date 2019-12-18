@@ -1,5 +1,6 @@
 (ns advent-of-code.core
   (:require [clojure.set :as set])
+  (:require [clojure.string :as str])
   (:gen-class))
 
 (defn fuel
@@ -386,6 +387,78 @@
   (intcomp (intcomp-input "day5-input.txt"))
   println "Completed")
 
+;;--------------------------------------------------------------------
+;; Solution to day6 from ceronman/adventofcode on github
+;; For educational purposes for me. Very concise, neat solution
+;; - Thanks Manuel!
+
+(def input (slurp "day6-input.txt"))
+
+(defn load-orbits [input]
+  (->> input
+       (str/split-lines)
+       (map #(reverse (str/split % #"\)")))
+       (reduce (fn [orbits [from to]] (assoc orbits from to)) {})))
+
+
+(defn count-orbits [orbits object]
+  (loop [o object
+         count 0]
+    (if (= o "COM")
+      count
+      (recur (get orbits o) (inc count)))))
+
+(defn day6a
+ []
+ (let [orbits (load-orbits input)
+       objects (keys orbits)
+       counts (map #(count-orbits orbits %) objects)]
+   (reduce + counts)))
+
+;;--------------------------------------------------------------------
+;; Part 2 solution also from Manuel
+
+(defn add-orbit [orbits [from to]]
+  (-> orbits
+      (update from (fnil conj #{}) to)
+      (update to (fnil conj #{}) from)))
+
+(defn load-orbits2 [input]
+  (->> input
+       (str/split-lines)
+       (map #(reverse (str/split % #"\)")))
+       (reduce add-orbit {})))
+
+(defn shortest-path [orbits start end]
+  (loop [queue [[0 start #{}]]]
+    (let [[steps object visited] (first queue)]
+      (if (= object end)
+        steps
+        (recur (into 
+                (rest queue)
+                (->> (get orbits object)
+                     (filter (complement visited))
+                     (map #(vector (inc steps) % (conj visited object))))))))))
+
+
+;; without threading macro
+(defn shortest-path2 [orbits start end]
+  (loop [queue [[0 start #{}]]]
+    (let [[steps object visited] (first queue)]
+      (if (= object end)
+        steps
+        (recur (into (rest queue)
+                     (map #(vector (inc steps) % (conj visited object))
+                          (filter (complement visited)
+                                  (get orbits object)))))))))
+
+(defn day6b
+  []
+  (let [orbits (load-orbits2 input)
+           start (first (get orbits "YOU"))
+           end (first (get orbits "SAN"))]
+       (shortest-path2 orbits start end)))
+;;--------------------------------------------------------------------
 
 (defn -main
   "I don't do a whole lot ... yet."
