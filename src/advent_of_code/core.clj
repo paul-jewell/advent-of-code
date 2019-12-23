@@ -1,6 +1,6 @@
 (ns advent-of-code.core
-  (:require [clojure.set :as set])
-  (:require [clojure.string :as str])
+  (:require [clojure.set :as set]
+            [clojure.string :as str])
   (:gen-class))
 
 (defn fuel
@@ -429,6 +429,14 @@
        (map #(reverse (str/split % #"\)")))
        (reduce add-orbit {})))
 
+;; without threading macro...
+(defn load-orbits3
+  [input]
+  (reduce add-orbit {}
+          (map #(reverse (str/split % #"\)"))
+               (str/split-lines input))))
+
+
 (defn shortest-path [orbits start end]
   (loop [queue [[0 start #{}]]]
     (let [[steps object visited] (first queue)]
@@ -441,7 +449,7 @@
                      (map #(vector (inc steps) % (conj visited object))))))))))
 
 
-;; without threading macro
+;; without threading macro - for my understanding...
 (defn shortest-path2 [orbits start end]
   (loop [queue [[0 start #{}]]]
     (let [[steps object visited] (first queue)]
@@ -459,6 +467,33 @@
            end (first (get orbits "SAN"))]
        (shortest-path2 orbits start end)))
 ;;--------------------------------------------------------------------
+;; Day 7
+;; -----
+;; Call the intcomp 5 times in succession. Input 0 - 4 (once only)
+;; then the output of the previous invocation of the intcomp. Which
+;; sequence of 0..4 gives the highest output value from the last
+;; invocation, and what is that value?
+
+;; 1. Make it possible to input the information programatically
+;; 2. Make it possible to receive the output into the program
+;; 3. Process the combinations of sequence, finding the maximum value
+
+
+
+(defn day7
+  []
+  (intcomp (intcomp-input "day7-input.txt"))
+  println "Completed")
+
+;; Another from Manuel
+
+(defn permutations [colls]
+  (if (= 1 (count colls))
+    (list colls)
+    (for [head colls
+          tail (permutations (disj (set colls) head))]
+      (cons head tail))))
+
 
 (defn -main
   "I don't do a whole lot ... yet."
