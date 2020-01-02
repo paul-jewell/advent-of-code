@@ -97,13 +97,10 @@
 
 ;; Walks through the whole field, testing the asteroids for each base
 (defn walk-field [field]
-  (map #(- % 1) (for [base-col (range (count (field 0)))
-                      base-row (range (count field))
-                      :when (= (get-in field [base-row base-col]) \#)] ;; Base is on an asteroid
-                  (count-asteroids (mask-asteroids field base-col base-row)))))
-
-
-
+  (for [base-col (range (count (field 0)))
+        base-row (range (count field))
+        :when (= (get-in field [base-row base-col]) \#)] ;; Base is on an asteroid
+    [base-col base-row (- (count-asteroids (mask-asteroids field base-col base-row)) 1)]))
 
 (def test-input ["......#.#."
                  "#..#.#...."
@@ -148,24 +145,55 @@
 (def test-input-4-vec (vec (map vec test-input-4)))
 
 
+;;================================================================================
+;; Below is Ceronman's solution - for education purposes
+;; slightly modified where I have used similar code above
+;; Key points -
+;;   * Use of map to hold the data
+;;   * Creating a list of asteroid coordinates. No need to read
+;;     the text information multiple times
+;;   * Clever use of distances to confirm if an asteroid is in the way
+;;   * map & apply not loop and for
+;;   * Delivering the base location as well as the count
+
+(defn parse-map [input]
+  (let [lines input
+        width (count (first lines))
+        height (count lines)
+        asteroids (into #{} (for [x (range width)
+                                  y (range height)
+                                  :when (= (first "#") (nth (nth lines y) x))]
+                              [x y]))]
+    {:width width :height height :asteroids asteroids}))
+
+(defn abs [n] (max n (- n)))
+
+(defn distance [[x1 y1] [x2 y2]]
+  (Math/sqrt (+ (* (- x1 x2) (- x1 x2)) (* (- y1 y2) (- y1 y2)))))
+;; Clever - use the distances to judge whether point c is in between a and b!
+;; Avoid all the issues I had above with ensuring the point is the correct side
+;; of the line
+(defn point-in-between? [a b c]
+  (> 0.0000001 (abs (- (+ (distance a c) (distance c b)) (distance a b)))))
+
+(defn blocked? [map [x1 y1] [x2 y2]]
+  (let [minx (min x1 x2)
+        maxx (max x1 x2)
+        miny (min y1 y2)
+        maxy (max y1 y2)]
+    
+    (not-empty (for [x (range minx (inc maxx))
+                     y (range miny (inc maxy))
+                     :when (and (point-in-between? [x1 y1] [x2 y2] [x y])
+                                (contains? (:asteroids map) [x y])
+                                (not= [x y] [x1 y1])
+                                (not= [x y] [x2 y2]))]
+                 [x y]))))
 
 
-#_(defn assess-location [field x y]
-  (for [curr-x (range (count (field 0)))
-        curr-y (range (count field))]
-    (if (= ((field curr-x) curr-y) \#)
-      (hide-asteroids field curr-x curr-y (- curr-x x) (- curr-y y))
-      field)))
+(defn reachable [map point]
+  (count (remove #(blocked? map point %) (disj (:asteroids map) point))))
 
-#_(defn day10 []
-  ;; Walk through locations and calculate the number of asteroids visible per location
-  (->> input
-       (map #(map assess-location %))
-       (map count-asteroids)
-       (apply max)))
-
-#_(defn day10 []
-  (for [x (range (count (input 0)))
-        y (range (count input))]
-    (assess-location input x y)))
+(time (let [m (parse-map input)]
+        (apply max-key second (map #(vector % (reachable m %)) (:asteroids m)))))
 
