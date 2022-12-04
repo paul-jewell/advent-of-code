@@ -3,5 +3,7 @@
 (defpackage #:day1
   (:use #:cl
         #:cl-ppcre)
-  (:export solution1
+  (:export test1
+           solution1
+           test2
            solution2))
