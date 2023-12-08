@@ -1,0 +1,19 @@
+* Advent of Code Solutions
+I have had a go at the Advent of Code problems over the last few
+years, to a greater or lesser extent depending on how busy I have
+been. I have now brought the different repositories into this one
+repository, and future development will be carried out in here. I
+think there are some earlier efforts - I will have a look, and if
+there is anything substantial, then I will add them here.
+
+* Purpose
+Advent of Code for me is an opportunity to learn about a programming
+language. The code in the solutions is not exemplary, or good examples
+of using these languages. You are free to use the code as you see fit,
+but you also get to keep the bugs therein! In the repository I have used the following languages to a
+greater or lesser extent:
+
+** Clojure
+** Lisp
+** (2023) - Rust
+
