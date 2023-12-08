@@ -13,8 +13,8 @@ of using these languages. You are free to use the code as you see fit,
 but you also get to keep the bugs therein! In the repository I have
 used the following languages to a greater or lesser extent:
 - Clojure
-*- Lisp
-*-* (2023) - Rust
+- Lisp
+- (2023) - Rust
 
 I have credited others for their code where I have resorted to looking
 for help. If I have left someone out - please let me know and I will
