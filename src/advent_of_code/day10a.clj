@@ -197,3 +197,15 @@
 (time (let [m (parse-map input)]
         (apply max-key second (map #(vector % (reachable m %)) (:asteroids m)))))
 
+(def results (let [m (parse-map input)]
+               (map #(vector % (reachable m %)) (:asteroids m))))
+
+
+(def my-results  (let [m (parse-map input)]
+                   (map #(vector % (reachable m %)) (:asteroids m))))
+
+(count my-results)
+
+(for [m my-results
+      :when (< 265 (second m))]
+  m)
