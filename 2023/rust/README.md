@@ -1,5 +1,23 @@
 # Advent of Code 2023
 
+I am using the opportunity this year to learn rust. I started too late really to be able to tackle the problems by myself, so decided to follow Chris Biscardi's excellent videos, and to model his structure and workflow.
+
+I follow the this approach:
+* Set up the new day, according to the instructions from Chris' repository, utilising his scripts.
+* Attempt to solve the problem myself without referring to his video (or other material for that matter).
+* Watch his video
+* Make another solo attempt using what I learnt from the video.
+
+This way, I hope to accellerate my learning. It also means that my code is possibly not idiomatic or good, so I recommend you take the opportunities presented by Chris through his repository and video channel.
+
+Paul 
+December 2023
+
+
+These are the instructions from Chris's repository:
+
+# Advent of Code 2023
+
 This year I've pre-set up a series of functionality for testing, benchmarking, and otherwise evaluating the performance of our Rust programs.
 
 This includes the command `just work` which is passed a particular day and part and is the equivalent workflow of running all of these in a row and stopping if one fails, then re-starting the flow after changes.
