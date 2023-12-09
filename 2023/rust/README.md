@@ -11,6 +11,7 @@ I follow the this approach:
 This way, I hope to accellerate my learning. It also means that my code is possibly not idiomatic or good, so I recommend you take the opportunities presented by Chris through his repository and video channel.
 
 Paul 
+
 December 2023
 
 
