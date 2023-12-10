@@ -2,9 +2,9 @@ use crate::custom_error::AocError;
 
 #[tracing::instrument]
 pub fn process(
-    _input: &str,
+    input: &str,
 ) -> miette::Result<String, AocError> {
-    let output = _input
+    let output = input
     .lines()
     .map(|line| {
         let mut it = 
@@ -31,7 +31,7 @@ mod tests {
 
     #[test]
     fn test_process() -> miette::Result<()> {
-        let input = include_str!("./part1-test-input.txt");
+        let input = include_str!("../part1-test-input.txt");
         assert_eq!("142", process(input)?);
         Ok(())
     }
