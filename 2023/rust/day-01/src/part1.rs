@@ -4,7 +4,25 @@ use crate::custom_error::AocError;
 pub fn process(
     _input: &str,
 ) -> miette::Result<String, AocError> {
-    todo!("day 01 - part 1");
+    let output = _input
+    .lines()
+    .map(|line| {
+        let mut it = 
+            line.chars().filter_map(|character| {
+                character.to_digit(10)
+            });
+        let first = 
+            it.next().expect("should be a number");
+
+        match it.last() {
+            Some(num) => format!("{first}{num}"),
+            None => format!("{first}{first}"),
+        }
+        .parse::<u32>()
+        .expect("should be a valid number")
+    })
+    .sum::<u32>();
+    Ok(output.to_string())
 }
 
 #[cfg(test)]
@@ -13,9 +31,8 @@ mod tests {
 
     #[test]
     fn test_process() -> miette::Result<()> {
-        todo!("haven't built test yet");
-        let input = "";
-        assert_eq!("", process(input)?);
+        let input = include_str!("./part1-test-input.txt");
+        assert_eq!("142", process(input)?);
         Ok(())
     }
 }
