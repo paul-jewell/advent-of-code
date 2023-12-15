@@ -50,8 +50,15 @@ mod tests {
 
     #[test]
     fn test_process() -> miette::Result<()> {
-        let input = "../part2-test-input.txt";
+        let input = include_str!("../part2-test-input.txt");
         assert_eq!("281", process(input)?);
+        Ok(())
+    }
+
+    #[test]
+    fn test_result() -> miette::Result<()> {
+        let input = include_str!("../input2.txt");
+        assert_eq!("52840", process(input)?);
         Ok(())
     }
 }
