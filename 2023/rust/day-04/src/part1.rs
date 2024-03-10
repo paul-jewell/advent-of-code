@@ -29,6 +29,7 @@ impl Card {
         }
     }
 }
+
 fn set(input: &str) -> IResult<&str, HashSet<u32>> {
     fold_many1(
         terminated(complete::u32, space0),
