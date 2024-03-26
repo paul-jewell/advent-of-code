@@ -20,6 +20,9 @@
         devShells.default = mkShell {
           buildInputs = [
             openssl
+            just
+            cargo-watch
+            cargo-nextest   
             pkg-config
             (
               rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
