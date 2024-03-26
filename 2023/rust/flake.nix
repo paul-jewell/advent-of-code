@@ -24,6 +24,7 @@
             cargo-watch
             cargo-nextest   
             pkg-config
+            rust-script
             (
               rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
                 extensions = [ 
