@@ -1,11 +1,9 @@
-#!/usr/bin/env -S cargo +nightly -Zscript
-
-//#/usr/bin/env cargo -Zscript
+#!/usr/bin/env -S rust-script
 
 //! ```cargo
 //! [package]
 //! edition = "2021"
-//!
+//! 
 //! [dependencies]
 //! clap = { version = "4.2", features = ["derive"] }
 //! nom = "7.1.3"
