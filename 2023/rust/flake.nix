@@ -1,126 +1,36 @@
 {
-  description = "Rust shells";
+  description = "Flake for advent-of-code 2023 using rust nightly";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    nixpkgs.url      = "github:NixOS/nixpkgs/nixos-unstable";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    flake-utils.url  = "github:numtide/flake-utils";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-
-      perSystem = {
-        config,
-        pkgs,
-        system,
-        ...
-      }: let
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          overlays = [(import inputs.rust-overlay)];
+  outputs = { self, nixpkgs, rust-overlay, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        overlays = [ (import rust-overlay) ];
+        pkgs = import nixpkgs {
+          inherit system overlays;
         };
-
-        makeRustInfo = {
-          version,
-          profile,
-        }: let
-          rust = pkgs.rust-bin.${version}.latest.${profile}.override {extensions = ["rust-src"];};
-        in {
-          name = "rust-" + version + "-" + profile;
-
-          # From https://discourse.nixos.org/t/rust-src-not-found-and-other-misadventures-of-developing-rust-on-nixos/11570/11
-          path = "${rust}/lib/rustlib/src/rust/library";
-
-          drvs = [
-            pkgs.just
-            pkgs.openssl
-            pkgs.pkg-config
-            pkgs.rust-analyzer
-            pkgs.cargo-watch
-            pkgs.cargo-nextest
-            rust
+      in
+      with pkgs;
+      {
+        devShells.default = mkShell {
+          buildInputs = [
+            openssl
+            pkg-config
+            (
+              rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
+                extensions = [ 
+                  "rust-src"
+                  "rust-analyzer" 
+                ];
+              })
+            ) 
           ];
         };
-
-        makeRustEnv = {
-          version,
-          profile,
-        }: let
-          rustInfo = makeRustInfo {
-            inherit version profile;
-          };
-        in
-          pkgs.buildEnv {
-            name = rustInfo.name;
-            paths = rustInfo.drvs;
-          };
-
-        matrix = {
-          stable-default = {
-            version = "stable";
-            profile = "default";
-          };
-
-          stable-minimal = {
-            version = "stable";
-            profile = "minimal";
-          };
-
-          beta-default = {
-            version = "beta";
-            profile = "default";
-          };
-
-          beta-minimal = {
-            version = "beta";
-            profile = "minimal";
-          };
-        };
-      in {
-        formatter = pkgs.alejandra;
-
-        devShells =
-          builtins.mapAttrs
-          (
-            name: value: let
-              version = value.version;
-              profile = value.profile;
-              rustInfo = makeRustInfo {
-                inherit version profile;
-              };
-            in
-              pkgs.mkShell {
-                name = rustInfo.name;
-
-                RUST_SRC_PATH = rustInfo.path;
-
-                buildInputs = rustInfo.drvs;
-              }
-          )
-          matrix
-          // {
-            default = let
-              version = matrix.stable-default.version;
-              profile = matrix.stable-default.profile;
-              rustInfo = makeRustInfo {
-                inherit version profile;
-              };
-            in
-              pkgs.mkShell {
-                name = rustInfo.name;
-
-                RUST_SRC_PATH = rustInfo.path;
-
-                buildInputs = rustInfo.drvs;
-              };
-          };
-      };
-    };
+      }
+    );
 }
