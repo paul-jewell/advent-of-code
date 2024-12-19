@@ -1,7 +1,7 @@
 (in-package :day13)
 
-(defparameter day13-test-input "~/Projects/advent-of-code-2020/input/day13-test-input.txt")
-(defparameter day13-input "~/Projects/advent-of-code-2020/input/day13-input.txt")
+(defparameter day13-test-input "input/day13-test-input.txt")
+(defparameter day13-input "input/day13-input.txt")
 
 
 (defun parse-input (file)

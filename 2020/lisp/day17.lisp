@@ -1,7 +1,7 @@
 (in-package #:day17)
 
-(defparameter input "~/Projects/advent-of-code-2020/input/day17-input.txt")
-(defparameter test-input "~/Projects/advent-of-code-2020/input/day17-test-input.txt")
+(defparameter input "input/day17-input.txt")
+(defparameter test-input "input/day17-test-input.txt")
 
 ;; Design choices
 ;; --------------

@@ -1,8 +1,8 @@
 (in-package :day16)
 
-(defparameter input "~/Projects/advent-of-code-2020/input/day16-input.txt")
-(defparameter test-input "~/Projects/advent-of-code-2020/input/day16-test-input.txt")
-(defparameter test-input-2 "~/Projects/advent-of-code-2020/input/day16-test-input-2.txt")
+(defparameter input "input/day16-input.txt")
+(defparameter test-input "input/day16-test-input.txt")
+(defparameter test-input-2 "input/day16-test-input-2.txt")
 
 
 (defun parse-rule (rule-str)

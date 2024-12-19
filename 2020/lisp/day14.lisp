@@ -1,8 +1,8 @@
 (in-package :day14)
 
-(defparameter day14-input "~/Projects/advent-of-code-2020/input/day14-input.txt")
-(defparameter day14-test-input "~/Projects/advent-of-code-2020/input/day14-test-input.txt")
-(defparameter day14-test-input-2 "~/Projects/advent-of-code-2020/input/day14-test-input-2.txt")
+(defparameter day14-input "input/day14-input.txt")
+(defparameter day14-test-input "input/day14-test-input.txt")
+(defparameter day14-test-input-2 "input/day14-test-input-2.txt")
 
 (defstruct d-comp
   code

@@ -1,6 +1,6 @@
 (in-package #:day3)
 
-(defparameter day3-input "~/Projects/advent-of-code-2020/input/day3-input.txt")
+(defparameter day3-input "input/day3-input.txt")
 
 (defun parse-line (tree-line)
   (coerce tree-line 'list))

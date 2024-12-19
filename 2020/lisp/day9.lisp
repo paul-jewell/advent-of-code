@@ -1,7 +1,7 @@
 (in-package :day9)
 
-(defparameter day9-test-input "~/Projects/advent-of-code-2020/input/day9-test-input.txt")
-(defparameter day9-input "~/Projects/advent-of-code-2020/input/day9-input.txt")
+(defparameter day9-test-input "input/day9-test-input.txt")
+(defparameter day9-input "input/day9-input.txt")
 
 (defun sums-in-preamble (list)
   (loop :for values on list

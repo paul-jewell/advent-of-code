@@ -4,7 +4,7 @@
 (defparameter +test2-input+ "5 + (8 * 3 + 9 + 3 * 4 * 3)")
 (defparameter +test3-input+ "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))")
 (defparameter +test4-input+ "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2")
-(defparameter day18-input "~/Projects/advent-of-code-2020/input/day18-input.txt")
+(defparameter day18-input "input/day18-input.txt")
 
 (defun prepare-string (str)
   (read-from-string (concatenate 'string "(" str ")")))

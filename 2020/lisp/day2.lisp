@@ -1,6 +1,6 @@
 (in-package #:day2)
 
-(defparameter day2-input "~/Projects/advent-of-code-2020/input/day2-input.txt")
+(defparameter day2-input "input/day2-input.txt")
 
 (defun parse-password (pass-str)
   ;; Password line format:

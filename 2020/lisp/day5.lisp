@@ -1,9 +1,9 @@
 (in-package :day5)
 
-(defparameter day5-input "~/Projects/advent-of-code-2020/input/day5-input.txt")
+(defparameter day5-input "input/day5-input.txt")
 (defparameter boarding-passes (uiop:read-file-lines day5-input))
 
-(defparameter day5-test-input-1 "~/Projects/advent-of-code-2020/input/day5-test-input-1.txt")
+(defparameter day5-test-input-1 "input/day5-test-input-1.txt")
 (defparameter test-boarding-passes (uiop:read-file-lines day5-test-input-1))
 
 ;; The boarding pass is essentially a binary representation, so using this information, we can

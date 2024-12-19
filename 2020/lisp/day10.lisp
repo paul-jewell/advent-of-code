@@ -1,8 +1,8 @@
 (in-package :day10)
 
-(defparameter day10-test-input1 "~/Projects/advent-of-code-2020/input/day10-test-input-1.txt")
-(defparameter day10-test-input2 "~/Projects/advent-of-code-2020/input/day10-test-input-2.txt")
-(defparameter day10-input "~/Projects/advent-of-code-2020/input/day10-input.txt")
+(defparameter day10-test-input1 "input/day10-test-input-1.txt")
+(defparameter day10-test-input2 "input/day10-test-input-2.txt")
+(defparameter day10-input "input/day10-input.txt")
 
 (defun part1 (filename)
   (let* ((adaptors (sort (mapcar #'parse-integer

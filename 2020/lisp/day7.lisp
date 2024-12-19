@@ -1,7 +1,7 @@
 (in-package :day7)
 
-(defparameter day7-test-input "~/Projects/advent-of-code-2020/input/day7-test-input.txt")
-(defparameter day7-input "~/Projects/advent-of-code-2020/input/day7-input.txt")
+(defparameter day7-test-input "input/day7-test-input.txt")
+(defparameter day7-input "input/day7-input.txt")
 
 (defparameter test-input (uiop:read-file-lines day7-test-input))
 

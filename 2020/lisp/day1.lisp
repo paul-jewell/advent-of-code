@@ -1,7 +1,7 @@
 (in-package #:day1)
 
 ;; Read input into list
-(defparameter day1-input "~/Projects/advent-of-code-2020/input/day1-input.txt")
+(defparameter day1-input "input/day10-input.txt")
 (defparameter expenses (mapcar #'parse-integer (uiop:read-file-lines day1-input)))
 
 ;; Refactor - second version - credit and thanks to bpanthi on lisp discord

@@ -1,7 +1,7 @@
 (in-package :day20)
 
-(defparameter day20-test-input "~/Projects/advent-of-code-2020/input/day20-test-input.txt")
-(defparameter day20-input "~/Projects/advent-of-code-2020/input/day20-input.txt")
+(defparameter day20-test-input "input/day20-test-input.txt")
+(defparameter day20-input "input/day20-input.txt")
 
 ;; Parse tiles from input string
 ;; - First line: Tile nnnn:

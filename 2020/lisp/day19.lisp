@@ -1,8 +1,8 @@
 (in-package :day19)
 
-(defparameter day19-test-input "~/Projects/advent-of-code-2020/input/day19-test-input.txt")
-(defparameter day19-test-input2 "~/Projects/advent-of-code-2020/input/day19-test-input2.txt")
-(defparameter day19-input "~/Projects/advent-of-code-2020/input/day19-input.txt")
+(defparameter day19-test-input "input/day19-test-input.txt")
+(defparameter day19-test-input2 "input/day19-test-input2.txt")
+(defparameter day19-input "input/day19-input.txt")
 
 ;; These three functions need to be refactored / clarified
 (defun parse-rule-body (str)

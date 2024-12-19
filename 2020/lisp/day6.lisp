@@ -1,7 +1,7 @@
 (in-package :day6)
 
-(defparameter day6-test-input "~/Projects/advent-of-code-2020/input/day6-test-input.txt")
-(defparameter day6-input "~/Projects/advent-of-code-2020/input/day6-input.txt")
+(defparameter day6-test-input "input/day6-test-input.txt")
+(defparameter day6-input "input/day6-input.txt")
 
 (defun count-yes (response)
   (length (remove-duplicates

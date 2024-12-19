@@ -1,7 +1,7 @@
 (in-package :day11)
 
-(defparameter day11-input "~/Projects/advent-of-code-2020/input/day11-input.txt")
-(defparameter day11-test-input "~/Projects/advent-of-code-2020/input/day11-test-input.txt")
+(defparameter day11-input "input/day11-input.txt")
+(defparameter day11-test-input "input/day11-test-input.txt")
 
 (defun parse-layout (filename)
   (let ((file-lines (uiop:read-file-lines filename)))

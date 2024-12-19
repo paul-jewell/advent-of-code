@@ -1,7 +1,7 @@
 (in-package :day12)
 
-(defparameter day12-input "~/Projects/advent-of-code-2020/input/day12-input.txt")
-(defparameter day12-test-input "~/Projects/advent-of-code-2020/input/day12-test-input.txt")
+(defparameter day12-input "input/day12-input.txt")
+(defparameter day12-test-input "input/day12-test-input.txt")
 
 (defparameter +cardinals+ '((north 0) (east 90) (south 180) (west 270)))
 

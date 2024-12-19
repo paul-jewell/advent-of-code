@@ -1,10 +1,10 @@
 (in-package :day4)
 
-(defparameter day4-test-input-1 "~/Projects/advent-of-code-2020/input/day4-test-input.txt")
-;; Test input 2 containts 4 valid and 4 invalid passports according to part 2 criteria
-(defparameter day4-test-input-2 "~/Projects/advent-of-code-2020/input/day4-test-input-2.txt")
+(defparameter day4-test-input-1 "input/day4-test-input.txt")
+;; Test input 2 contains 4 valid and 4 invalid passports according to part 2 criteria
+(defparameter day4-test-input-2 "input/day4-test-input-2.txt")
 
-(defparameter day4-input "~/Projects/advent-of-code-2020/input/day4-input.txt")
+(defparameter day4-input "input/day4-input.txt")
 
 (defun read-passports (passport-file)
   (split "\\n\\n" (uiop:read-file-string passport-file)))

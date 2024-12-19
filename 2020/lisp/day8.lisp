@@ -1,7 +1,7 @@
 (in-package :day8)
 
-(defparameter day8-test-input "~/Projects/advent-of-code-2020/input/day8-test-input.txt")
-(defparameter day8-input "~/Projects/advent-of-code-2020/input/day8-input.txt")
+(defparameter day8-test-input "input/day8-test-input.txt")
+(defparameter day8-input "input/day8-input.txt")
 
 (defstruct console
   code
