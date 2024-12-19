@@ -1,4 +1,4 @@
-;;;; advent2021.asd
+;;;; advent2024.asd
 
 (defsystem #:advent2024
   :description "Advent of Code 2024"
