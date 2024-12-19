@@ -1,7 +1,7 @@
 (in-package :day2)
 
-(defparameter day2-test-input "~/Projects/advent-of-code-2022/input/day2-test.txt")
-(defparameter day2-input "~/Projects/advent-of-code-2022/input/day2.txt")
+(defparameter day2-test-input "input/day2-test.txt")
+(defparameter day2-input "input/day2.txt")
 
 ;;---------------------------------------------
 ;; Part 1 - score for different combinations

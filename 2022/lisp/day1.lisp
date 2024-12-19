@@ -1,8 +1,8 @@
 (in-package :day1)
 
 ;; Read input into list
-(defparameter day1-input "~/Projects/advent-of-code-2022/input/day1.txt")
-(defparameter day1-test-input "~/Projects/advent-of-code-2022/input/day1-test.txt")
+(defparameter day1-input "input/day1.txt")
+(defparameter day1-test-input "input/day1-test.txt")
 
 
 
