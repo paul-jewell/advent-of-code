@@ -3,7 +3,7 @@
 (defsystem #:advent2024
   :description "Advent of Code 2024"
   :author "Paul Jewell <paul@teulu.org>"
-  :license "GNU3"  ;; Check proper license attribution
+  :licence "GNU GPLv3"
   :version "0.0.1"
   :serial t
   :depends-on (#:cl-ppcre
